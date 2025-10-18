@@ -31,4 +31,18 @@ TODO:
     - 允许用户作为一个角色参加
     - 接入LinuxDO元宇宙(?
 
+
 欢迎提交分支！！！
+
+Sidenote and backstory:
+
+The 1.5 version is an older version of game.py (officially game_v3.1.py)
+It has only basic functions and is very messy
+We then did a reconstruction/refactoring of the code (which is game.py)
+This time, there are 8 players instead of 6, and the code is more robust
+The output is still a bit messed up but things are generally great
+I am preparing to upload a 3.5 verion on the 20th
+This one will inherit the old structure with some improved functions and minor edits
+It will have a plan section where users can customize the course and style of game
+
+-Leonard
