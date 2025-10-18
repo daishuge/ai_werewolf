@@ -2,7 +2,7 @@ from openai import OpenAI
 import random
 global re
 import re
-api = "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"
+api = ""
 url = "https://openrouter.ai/api/v1"
 global client
 client = OpenAI(
@@ -418,3 +418,4 @@ while cont==0:
         lastwords()
     day()
     cont=ifend()
+
