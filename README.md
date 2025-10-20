@@ -47,7 +47,7 @@ This time, there are 8 players instead of 6, and the code is more robust
 
 The output is still a bit messed up but things are generally great
 
-I am preparing to upload a 3.5 verion on the 20th
+We are preparing to upload a 3.5 verion on the 30th
 
 This one will inherit the old structure with some improved functions and minor edits
 
@@ -55,4 +55,5 @@ It will have a plan section where users can customize the course and style of ga
 
 
 -Leonard and Cameron
+
 
