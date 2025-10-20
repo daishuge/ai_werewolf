@@ -54,5 +54,5 @@ This one will inherit the old structure with some improved functions and minor e
 It will have a plan section where users can customize the course and style of game
 
 
--Leonard
+-Leonard and Cameron
 
