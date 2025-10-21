@@ -49,11 +49,12 @@ The output is still a bit messed up but things are generally great
 
 We are preparing to upload a 3.5 verion on the 30th
 
-This one will inherit the old structure with some improved functions and minor edits
-
 It will have a plan section where users can customize the course and style of game
+
+There will also be a user version where it is possible to play the game with ai (only singleplayer for now)
 
 
 -Leonard and Cameron
+
 
 
