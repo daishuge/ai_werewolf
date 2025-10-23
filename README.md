@@ -1,4 +1,4 @@
-一个多模型混战的ai狼人杀原型
+**一个多模型混战的ai狼人杀原型**
 
 快速开始
 
@@ -26,35 +26,71 @@ DEBUG_展示身份到控制台 = True
 - False：隐藏身份映射（为后续用户参加做准备）
 
 TODO:
+
     - ui
-    - 未使用的plan策略字段
+    
+    - ~~未使用的plan策略字段~~
+    
     - 允许用户作为一个角色参加
+    
     - 接入LinuxDO元宇宙(?
 
 
 欢迎提交分支！！！
 
+**A multi-model ai werewolf game**
+
+Game rules explained (simplified):
+
+Two sides/factions:
+
+    - Good: villagers and special characters, eg. witch
+
+    - Bad: werewolves and special characters, eg. werewolf king
+
+Switches between day and night phases until victory of one side
+
+Night:
+
+    - Werewolves choose their target
+
+    - Witch choose to use antidote on the target or use poison on someone (both potions can only be used once)
+
+    - Prophet checks if a player is good or bad
+
+    - Guard decides which person to protect (cannot be same for two consecutive nights)
+
+
+Day:
+
+    - If applicable, the dead ones have their last words spoken
+
+    - Players that are alive delivers a short speech
+
+    - Players decide who to vote for, and the one who gets the most votes is killed
+
+
 Sidenote and backstory:
 
 
-The 1.5 version is an older version of game.py (officially game_v3.1.py)
-
-It has only basic functions and is very messy
-
-We then did a reconstruction/refactoring of the code (which is game.py)
+The old version (1.5) has only basic functions and is very messy, so we did a reconstruction/refactoring of the code (the oldest uploaded)
 
 This time, there are 8 players instead of 6, and the code is more robust
 
 The output is still a bit messed up but things are generally great
 
-We are preparing to upload a 3.5 verion on the 30th
+We are preparing to upload another version very soon
 
-It will have a plan section where users can customize the course and style of game
+It will have a plan section where users can customize the course and style of game (already done)
 
-There will also be a user version where it is possible to play the game with ai (only singleplayer for now)
+We are working on a user version where it is possible to play the game with ai (only singleplayer for now)
+
+We hope to create a html version with ui sometime soon, perhaps
+
+- Leonard and Cameron
 
 
--Leonard and Cameron
+
 
 
 
