@@ -27,13 +27,13 @@ DEBUG_展示身份到控制台 = True
 
 TODO:
 
-    - ui
+- ui
     
-    - ~~未使用的plan策略字段~~
+- ~~未使用的plan策略字段~~
     
-    - 允许用户作为一个角色参加
+- 允许用户作为一个角色参加
     
-    - 接入LinuxDO元宇宙(?
+- 接入LinuxDO元宇宙(?
 
 
 欢迎提交分支！！！
@@ -44,30 +44,30 @@ Game rules explained (simplified):
 
 Two sides/factions:
 
-    - Good: villagers and special characters, eg. witch
+- Good: villagers and special characters, eg. witch
 
-    - Bad: werewolves and special characters, eg. werewolf king
+- Bad: werewolves and special characters, eg. werewolf king
 
 Switches between day and night phases until victory of one side
 
 Night:
 
-    - Werewolves choose their target
+- Werewolves choose their target
 
-    - Witch choose to use antidote on the target or use poison on someone (both potions can only be used once)
+- Witch choose to use antidote on the target or use poison on someone (both potions can only be used once)
 
-    - Prophet checks if a player is good or bad
+- Prophet checks if a player is good or bad
 
-    - Guard decides which person to protect (cannot be same for two consecutive nights)
+- Guard decides which person to protect (cannot be same for two consecutive nights)
 
 
 Day:
 
-    - If applicable, the dead ones have their last words spoken
+- If applicable, the dead ones have their last words spoken
 
-    - Players that are alive delivers a short speech
+- Players that are alive delivers a short speech
 
-    - Players decide who to vote for, and the one who gets the most votes is killed
+- Players decide who to vote for, and the one who gets the most votes is killed
 
 
 Sidenote and backstory:
@@ -88,6 +88,7 @@ We are working on a user version where it is possible to play the game with ai (
 We hope to create a html version with ui sometime soon, perhaps
 
 - Leonard and Cameron
+
 
 
 
