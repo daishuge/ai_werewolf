@@ -75,7 +75,8 @@ def setup():
             "role_instruction": "你是普通村民，没有夜间技能，白天通过发言和投票找出狼人",
             "suggestion":"你可以大胆发言",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"v1"
     }
     v2 = {
             "alive": True,
@@ -85,7 +86,8 @@ def setup():
             "role_instruction": "你是普通村民，没有夜间技能，白天通过发言和投票找出狼人",
             "suggestion":"你可以大胆发言",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"v2"
     }
     p = {
             "alive": True,
@@ -95,7 +97,8 @@ def setup():
             "role_instruction": "你每晚可以随机查验一名玩家阵营，在白天合理分享信息，通过投票打败狼人",
             "suggestion":"你可以发言透露身份，便于神职和平民的合作。第一夜建议随机选择要验的玩家",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"p"
     }
     w = {
             "alive": True,
@@ -107,7 +110,8 @@ def setup():
             "role_instruction": "你拥有一瓶解药和一瓶毒药每种，最多使用一次",
             "suggestion":"你可以发言透露身份，便于神职和平民的合作。女巫是可以用解药自救的。确认身份后可以大胆使用毒药。第一夜不太可能是狼人自刀",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"w"
     }
     f1 = {
             "alive": True,
@@ -117,7 +121,8 @@ def setup():
             "role_instruction": "你与另一名狼人和一名狼王协同作战，夜间选择击杀目标，白天需要隐藏身份",
             "suggestion":"第一夜建议随机选择或自刀和刀队友。发言阶段可以伪装成预言家来骗玩家，尽量配合队友欺骗平民票出神职，也建议自刀来骗女巫和平民。别忘了发言顺序，不要乱说没发言的玩家发言很怪",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"f1"
     }
     f2 = {
             "alive": True,
@@ -127,7 +132,8 @@ def setup():
             "role_instruction": "你与另一名狼人和一名狼王协同作战，夜间选择击杀目标，白天需要隐藏身份",
             "suggestion":"第一夜建议随机选择或自刀和刀队友。发言阶段可以伪装成预言家来骗玩家，尽量配合队友欺骗平民票出神职，也建议自刀来骗女巫和平民。别忘了发言顺序，不要乱说没发言的玩家发言很怪",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"f2"
     }
     f3 = {
             "alive": True,
@@ -137,7 +143,8 @@ def setup():
             "role_instruction": "你与两名狼人协同作战，夜间选择击杀目标，白天需要隐藏身份。当你在白天被票出局时，杀死一位玩家。",
             "suggestion":"第一夜建议随机选择或自刀和刀队友。发言阶段可以伪装成预言家来骗玩家，尽量配合队友欺骗平民票出神职，也建议自刀来骗女巫和平民。别忘了发言顺序，不要乱说没发言的玩家发言很怪",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"f3"
     }
     g = {
             "alive": True,
@@ -147,7 +154,8 @@ def setup():
             "role_instruction": "你每晚可以守卫一位玩家，连续两晚守卫的玩家不能重复。假如守卫和女巫同时守/救狼人刀的对象，目标仍旧死亡",
             "suggestion":"第一晚建议守自己。你可以发言透露身份，便于神职和平民的合作",
             "plan":"",
-            "model":""
+            "model":"",
+            "code":"g"
     }
     player_list = [v1,v2,p,w,f1,f2,f3,g]
     game_state={
@@ -173,7 +181,7 @@ def utilities():
         print("Number |Character |Faction |Model")
         for i in range(1,9,1):
             for player in player_list:
-                if player['number']==i:
+                if player["number"]==i:
                     if player==f1 or player==f2:
                         Role="Wolf      "
                         Faction="Bad     "
@@ -256,6 +264,7 @@ def utilities():
     def out_extract(ifprint,ifsep,play,len="short"):         #play:dict
         """从模型回复中提取 [[...]] 内的任意内容（含空格/标点/中文/换行）。"""
         trials=1
+        m=[]
         while trials!=3:
             try:
                 reply = out(ifprint,ifsep,play,len)
@@ -290,19 +299,26 @@ def initiation():
         api_key=api,
     )
     title("初始化",False)
+    selectedplan="default"
     selectedplan=input("选择玩家的计划: ")
-    if selectedplan=="":
-        selectedplan="default"
-    for plan in plans:
-        if plan["name"]==selectedplan:
-            v1["plan"]=plan["v1"]
-            v2["plan"]=plan["v2"]
-            p["plan"]=plan["p"]
-            w["plan"]=plan["w"]
-            f1["plan"]=plan["f1"]
-            f2["plan"]=plan["f2"]
-            f3["plan"]=plan["f3"]
-            g["plan"]=plan["g"]
+    if selectedplan=="custom":
+        for player in player_list:
+            playerplan="default"
+            playerplan=input(f"选择{player['role_name']}玩家的计划: ")
+            for plan in plans:
+                if plan["name"]==playerplan:
+                    player["plan"]=plan[player["code"]]
+    else:
+        for plan in plans:
+            if plan["name"]==selectedplan:
+                v1["plan"]=plan["v1"]
+                v2["plan"]=plan["v2"]
+                p["plan"]=plan["p"]
+                w["plan"]=plan["w"]
+                f1["plan"]=plan["f1"]
+                f2["plan"]=plan["f2"]
+                f3["plan"]=plan["f3"]
+                g["plan"]=plan["g"]
     print()
     random.shuffle(model_list)
     id=1
@@ -520,7 +536,7 @@ def lastwords(list):
     else:
         for i in list:
             words=prompt("你死了，请发表遗言",[i])
-            broadcast(f"{i}的遗言是：{words}")
+            broadcast(f"{i['number']}号玩家的遗言是：{words}")
             if i!=list[len(list)-1]:
                 sep()
             else:
