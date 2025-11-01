@@ -34,8 +34,10 @@ DEBUG_展示身份到控制台 = True
     
 - 接入LinuxDO元宇宙(?
 
+我们已经完成了用户参与游戏的部分，很快就会把beta version传到github上，到时候可以试试和ai玩狼人杀！
 
 欢迎提交分支！！！
+
 
 **A multi-model ai werewolf game**
 
@@ -102,22 +104,14 @@ This time, there are 8 players instead of 6, and the code is more robust
 
 The output is still a bit messed up but things are generally great
 
-We are preparing to upload another version very soon
+~~We are preparing to upload another version very soon~~
 
-It will have a plan section where users can customize the course and style of game (already done)
+~~It will have a plan section where users can customize the course and style of game~~
 
-We are working on a user version where it is possible to play the game with ai (only singleplayer for now)
+We will upload a user version where it is possible to play the game with ai (only singleplayer for now)
 
-We hope to create a html version with ui sometime soon, perhaps
+Most of the parts are done and we will upload the beta version soon (feel free to try it out and interact with ai!)
+
+Our future plan is to create a html version with ui later in nov.
 
 -Leonard and Cameron
-
-
-
-
-
-
-
-
-
-
