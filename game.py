@@ -308,6 +308,10 @@ def initiation():
             for plan in plans:
                 if plan["name"]==playerplan:
                     player["plan"]=plan[player["code"]]
+    elif selectedplan=="random":
+        for player in player_list:
+            player["plan"]=random.choice(plans)[player["code"]]
+            print(player["code"],player["plan"])
     else:
         for plan in plans:
             if plan["name"]==selectedplan:
