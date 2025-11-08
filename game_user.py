@@ -52,9 +52,9 @@ def setup():
         "v2":"大胆发言",
         "p":"大胆发言",
         "w":"大胆发言",
-        "f1":"大胆发言",
-        "f2":"大胆发言",
-        "f3":"大胆发言",
+        "f1":"大胆发言，不过不要显得带节奏",
+        "f2":"大胆发言，不过不要显得带节奏",
+        "f3":"大胆发言，不过不要显得带节奏",
         "g":"大胆发言"}
     crazy={
         "name":"crazy",
@@ -186,6 +186,30 @@ f2=player_list[5]
 f3=player_list[6]
 g=player_list[7]
 def utilities():
+    def table():
+        print("Number |Character |Faction |Model")
+        for i in range(1,9,1):
+            for player in player_list:
+                if player["number"]==i:
+                    if player==f1 or player==f2:
+                        Role="Wolf      "
+                        Faction="Bad     "
+                    elif player==f3:
+                        Role="Wolf king "
+                        Faction="Bad     "
+                    elif player==v1 or player==v2:
+                        Role="Villager  "
+                        Faction="Good    "
+                    elif player==g:
+                        Role="Guard     "
+                        Faction="Good    "
+                    elif player==p:
+                        Role="Prophet   "
+                        Faction="Good    "
+                    elif player==w:
+                        Role="Witch     "
+                        Faction="Good    "
+                    print(f"{player['number']}      |{Role}|{Faction}|{player['model']}")
     def title(input,sub=True):
         if sub:
             sepp="-"*20
@@ -284,8 +308,8 @@ def utilities():
         prompt(input,player_list,False,False,False)
         if False:
             print(input)
-    return title,sep,index,get_player_by_number,llm,assign,out,out_extract,prompt,broadcast
-[title,sep,index,get_player_by_number,llm,assign,out,out_extract,prompt,broadcast]=utilities()
+    return table,title,sep,index,get_player_by_number,llm,assign,out,out_extract,prompt,broadcast
+[table,title,sep,index,get_player_by_number,llm,assign,out,out_extract,prompt,broadcast]=utilities()
 def initiation():
     api = env["api_key"]
     url = env["base_url"]
@@ -295,30 +319,34 @@ def initiation():
         api_key=api,
     )
     title("初始化",False)
-    selectedplan="default"
     selectedplan=input("选择玩家的计划: ")
-    if selectedplan=="custom":
+    if selectedplan=="individual":
         for player in player_list:
-            playerplan="default"
             playerplan=input(f"选择{player['role_name']}玩家的计划: ")
+            canfind=False
             for plan in plans:
                 if plan["name"]==playerplan:
+                    canfind=True
                     player["plan"]=plan[player["code"]]
+            if not canfind:
+                player["plan"]=plans[0][player["code"]]
     elif selectedplan=="random":
         for player in player_list:
             player["plan"]=random.choice(plans)[player["code"]]
             print(player["code"],player["plan"])
+    elif selectedplan=="custom":
+        for player in player_list:
+            player["plan"]=input(f"选择{player['role_name']}玩家的计划: ")
     else:
+        canfind=False
         for plan in plans:
             if plan["name"]==selectedplan:
-                v1["plan"]=plan["v1"]
-                v2["plan"]=plan["v2"]
-                p["plan"]=plan["p"]
-                w["plan"]=plan["w"]
-                f1["plan"]=plan["f1"]
-                f2["plan"]=plan["f2"]
-                f3["plan"]=plan["f3"]
-                g["plan"]=plan["g"]
+                canfind=True
+                for player in player_list:
+                    player["plan"]=plan[player["code"]]
+        if not canfind:
+            for player in player_list:
+                player["plan"]=plans[0][player["code"]]
     print()
     random.shuffle(model_list)
     id=1
@@ -352,13 +380,14 @@ def initiation():
                     {role_instruction}
                     建议：{suggestion}
                     你的计划：{plann}
-                    你应当每回合输出分析，放在两个大括号中，这里面的内容只会被你自己阅读
+                    你应当每回合输出分析，放在两个大括号'''+"{{}}"+'''中，这里面的内容只会被你自己阅读
                     你的最终的结果（玩家代号或者选择或药水选择或遗言或收到），尤其注意白天发言，以上内容务必放在[[]]像这样的两个中括号中
                     例如
                     [[1]]
                     确保它没有任何其他内容
                     在无需目标的情况下，例如遗言，讨论，你不能输出这个内容
-                    你的语言应该不那么专业，保持普通人的能力即可，可以结合计划展现一定程度的个性，不要过于格式化。不要盲目认为发言谨慎的玩家就是狼人'''
+                    你的语言应该不那么专业，保持普通人的能力即可，可以结合计划展现一定程度的个性，不要过于格式化。不要盲目认为发言谨慎的玩家就是狼人
+                    白天发言不要过于格式化，尽量不要以“大家好，我是……号玩家”开头，可以自由一点'''
         i["history"].append({"role":"system","content":promptt})
 def wolf():
     def rechoose(wolf1,wolf2,wolftarget1,wolftarget2):
@@ -447,20 +476,27 @@ def witch():
 def prophet():
     if p["alive"]:
         a=prompt("预言家请睁眼，选择你要验的玩家编号，回答编号",[p])
-        i=index(a)
-        if p["isuser"]:
-            sep()
-        if i==f1 or i==f2 or i==f3:
-            prompt("他是个坏人，预言家请闭眼",[p],False)
-        else:
-            prompt("他是个好人，预言家请闭眼",[p],False)
+        try:
+            i=index(a)
+            if p["isuser"]:
+                sep()
+            if i==f1 or i==f2 or i==f3:
+                prompt("他是个坏人，预言家请闭眼",[p],False)
+            else:
+                prompt("他是个好人，预言家请闭眼",[p],False)
+        except:
+            prompt("预言家玩家选择错误，跳过回合",[p],False)
 def guard():
     if g["alive"]:
         game_state["protect"]=prompt("守卫请睁眼，今晚你要守谁？回答编号",[g])
         if game_state["protect"]==game_state["prev"]:
-            game_state["protect"]=="0"
+            game_state["protect"]="0"
         game_state["prev"]=game_state["protect"]
 def night():
+    game_state["save"]=False
+    game_state["wolftarget"]="0"
+    game_state["protect"]="0"
+    game_state["tonight_dead"]=[]
     broadcast("天黑请闭眼")
     title(f"夜晚阶段：第{game_state['nights']}夜",False)
     guard()
@@ -472,7 +508,6 @@ def identify_dead():
     broadcast("天亮了")
     print()
     title("白天公告")
-    game_state["tonight_dead"]=[]
     if game_state["protect"]==game_state["wolftarget"] and game_state["save"]==True:
         game_state["save"]=False
         game_state["protect"]="0"
@@ -489,17 +524,14 @@ def identify_dead():
     print()
 def kill_when_dead():
     try:
-        death_kill_target=prompt("你被投票处决死了，你作为狼王可以杀死一名玩家，请回答存活的玩家编号，不要发言，只回答编号",[f3])
-        if f3["isuser"]:
-            print()
+        death_kill_target=prompt("你被投票处决死了，你作为狼王可以杀死一名玩家，请回答存活的玩家编号，不刀人并隐藏身份请回答0，不要回答发言",[f3])
         for player in player_list:
             if str(player["number"])==death_kill_target:
                 player["alive"]=False
-                killed=player
-        broadcast(f"{f3['number']}号玩家是狼王，死前把{killed['number']}号玩家杀死了")
+                broadcast(f"{f3['number']}号玩家是狼王，死前把{player['number']}号玩家杀死了",True)
         print()
     except:
-        print(f"something went wrong. kill traget:{death_kill_target}, killed:{killed}, f3:{f3['number']}")
+        print(f"something went wrong. kill traget:{death_kill_target}, f3:{f3['number']}")
 def lastwords(list):
     title("遗言阶段")
     if game_state["nights"]==1:
@@ -620,4 +652,5 @@ def game():
             day()
             cont=ifend()
             isnight=True
-game()
+    table()
+    print()
