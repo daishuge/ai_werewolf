@@ -164,7 +164,8 @@ def setup():
         "wolftarget":"0",
         "protect":"0",
         "save":False,
-        "tonight_dead":[]
+        "tonight_dead":[],
+        "prev":"0"
     }
     return model_list,game_state,plans,player_list
 [model_list,game_state,plans,player_list]=setup()
@@ -299,30 +300,31 @@ def initiation():
         api_key=api,
     )
     title("初始化",False)
-    selectedplan="default"
     selectedplan=input("选择玩家的计划: ")
     if selectedplan=="custom":
         for player in player_list:
-            playerplan="default"
             playerplan=input(f"选择{player['role_name']}玩家的计划: ")
+            canfind=False
             for plan in plans:
                 if plan["name"]==playerplan:
+                    canfind=True
                     player["plan"]=plan[player["code"]]
+            if not canfind:
+                player["plan"]=plans[0][player["code"]]
     elif selectedplan=="random":
         for player in player_list:
             player["plan"]=random.choice(plans)[player["code"]]
             print(player["code"],player["plan"])
     else:
+        canfind=False
         for plan in plans:
             if plan["name"]==selectedplan:
-                v1["plan"]=plan["v1"]
-                v2["plan"]=plan["v2"]
-                p["plan"]=plan["p"]
-                w["plan"]=plan["w"]
-                f1["plan"]=plan["f1"]
-                f2["plan"]=plan["f2"]
-                f3["plan"]=plan["f3"]
-                g["plan"]=plan["g"]
+                canfind=True
+                for player in player_list:
+                    player["plan"]=plan[player["code"]]
+        if not canfind:
+            for player in player_list:
+                player["plan"]=plans[0][player["code"]]
     print()
     random.shuffle(model_list)
     id=1
@@ -349,7 +351,7 @@ def initiation():
                     {role_instruction}
                     建议：{suggestion}
                     你的计划：{plann}
-                    你应当每回合输出分析，放在两个大括号中，这里面的内容只会被你自己阅读
+                    你应当每回合输出分析，放在两个大括号'''+"{{}}"+'''中，这里面的内容只会被你自己阅读
                     你的最终的结果（玩家代号或者选择或药水选择或遗言或收到），尤其注意白天发言，以上内容务必放在[[]]像这样的两个中括号中
                     例如
                     [[1]]
@@ -474,12 +476,20 @@ def guard():
     if g["alive"]:
         game_state["protect"]=prompt("守卫请睁眼，今晚你要守谁？回答编号，放在[[]]里",[g])
         sep(True)
-        print(f"守卫守护的对象：{game_state['protect']}")
+        if game_state["protect"]==game_state["prev"]:
+            game_state["protect"]="0"
+            print("守卫重复守一个人，无效")
+        else:
+            print(f"守卫守护的对象：{game_state['protect']}")
         print()
         print("守卫回合结束")
     else:
         print("守卫回合跳过")
 def night():
+    game_state["save"]=False
+    game_state["wolftarget"]="0"
+    game_state["protect"]="0"
+    game_state["tonight_dead"]=[]
     broadcast("天黑请闭眼")
     title(f"夜晚阶段：第{game_state['nights']}夜",False)
     title("守卫回合")
@@ -524,15 +534,14 @@ def identify_dead():
     print()
 def kill_when_dead():
     try:
-        death_kill_target=prompt("你被投票处决死了，你作为狼王可以杀死一名玩家，请回答存活的玩家编号，并放在[[]]中，[[]]中不要放发言",[f3])
+        death_kill_target=prompt("你被投票处决死了，你作为狼王可以杀死一名玩家，请回答存活的玩家编号，并放在[[]]中，[[]]中不要放发言，不刀人并隐藏身份请回答[[0]]",[f3])
         for player in player_list:
             if str(player["number"])==death_kill_target:
                 player["alive"]=False
-                killed=player
-        broadcast(f"{f3['number']}号玩家是狼王，死前把{killed['number']}号玩家杀死了",True)
+                broadcast(f"{f3['number']}号玩家是狼王，死前把{player['number']}号玩家杀死了",True)
         print()
     except:
-        print(f"something went wrong. kill traget:{death_kill_target}, killed:{killed}, f3:{f3['number']}")
+        print(f"something went wrong. kill traget:{death_kill_target}, f3:{f3['number']}")
 def lastwords(list):
     title("遗言阶段")
     if game_state["nights"]==1:
