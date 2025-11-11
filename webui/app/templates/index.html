@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI 狼人杀 · 控制台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="control-panel">
+        <div class="control-copy">
+          <p class="eyebrow">AI Werewolf Command</p>
+          <h1>实时主持面板</h1>
+          <p class="subtitle">
+            一页即可查看对局状态、AI 输出与待办提示。点击启动后整个流程都在本页完成，方便主持专注节奏。
+          </p>
+        </div>
+        <div class="control-actions">
+          <div class="cta-card">
+            <p class="badge badge-idle" id="statusBadge">等待开局</p>
+            <button id="startButton" type="button">立即启动一局</button>
+            <div class="session-meta">
+              <div>
+                <p class="meta-label">对局代号</p>
+                <p class="meta-value" id="gameIdLabel">——</p>
+              </div>
+              <div>
+                <p class="meta-label">运行时长</p>
+                <p class="meta-value" id="sessionTimer">00:00</p>
+              </div>
+            </div>
+          </div>
+          <div class="session-hint">
+            <p>
+              日志与提示会实时刷新。轮到输入时，右侧输入框会自动解锁；提交后可在时间线上立刻看到回执。
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel metrics-panel" id="metricsPanel">
+        <div class="metric-card">
+          <p class="metric-label">实时播报</p>
+          <p class="metric-value" id="metricLogs">0</p>
+          <p class="metric-hint">引擎输出条目</p>
+        </div>
+        <div class="metric-card">
+          <p class="metric-label">悬挂提示</p>
+          <p class="metric-value" id="metricPrompts">0</p>
+          <p class="metric-hint">等待玩家响应</p>
+        </div>
+        <div class="metric-card">
+          <p class="metric-label">成功提交</p>
+          <p class="metric-value" id="metricInputs">0</p>
+          <p class="metric-hint">人类输入次数</p>
+        </div>
+        <div class="metric-card highlight">
+          <p class="metric-label">当前提示</p>
+          <p class="metric-value small" id="activePromptLabel">暂无</p>
+          <p class="metric-hint">聚焦输入区</p>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="panel log-panel">
+          <div class="log-toolbar">
+            <div>
+              <h2>实况时间线</h2>
+              <p class="muted">
+                夜晚、白天、技能与结算实时归档，整局脉络清晰，一眼定位高光瞬间。
+              </p>
+            </div>
+            <div class="toolbar-actions">
+              <div class="chip-group" id="filterGroup">
+                <button class="chip active" data-filter="log">叙事</button>
+                <button class="chip active" data-filter="prompt">指令</button>
+                <button class="chip active" data-filter="user">玩家</button>
+                <button class="chip active" data-filter="status">状态</button>
+                <button class="chip active" data-filter="error">异常</button>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="autoScroll" checked />
+                <span>自动滚动</span>
+              </label>
+              <button id="copyTranscript" type="button" class="ghost-button">
+                复制战报
+              </button>
+              <button id="clearLog" type="button" class="ghost-button">
+                清空
+              </button>
+            </div>
+          </div>
+          <div id="logViewport" class="timeline"></div>
+        </div>
+
+        <aside class="side-stack">
+          <section class="panel prompt-panel">
+            <div class="prompt-label">
+              <p id="promptStatus">当前无需输入</p>
+              <small>跟随提示完成计划/技能/投票</small>
+            </div>
+            <form id="inputForm" autocomplete="off">
+              <input
+                id="playerInput"
+                type="text"
+                name="playerInput"
+                placeholder="等待提示..."
+                disabled
+              />
+              <button id="submitButton" type="submit" disabled>提交回应</button>
+            </form>
+            <ul class="prompt-tips" id="promptTips">
+              <li><strong>计划：</strong>输入 default（默认）/ random（随机）/ custom（自定）/ individual（逐个）</li>
+              <li><strong>投票：</strong>直接输入座位号，0 表示弃票</li>
+              <li><strong>技能：</strong>女巫输入解药或毒药，守卫输入守护位置</li>
+            </ul>
+          </section>
+
+          
+        </aside>
+      </section>
+
+      
+
+      
+    </div>
+
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>
