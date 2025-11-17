@@ -1,4 +1,4 @@
-**一个多模型混战的ai狼人杀原型**
+***一个多模型混战的ai狼人杀原型***
 
 *快速开始*
 
@@ -24,22 +24,12 @@ DEBUG_展示身份到控制台 = True
 - False：隐藏身份映射（为后续用户参加做准备）
 ```
 
-*TODO:*
-
-- ui
-    
-- ~~未使用的plan策略字段~~
-    
-- 允许用户作为一个角色参加
-    
-- 接入LinuxDO元宇宙(?
-
-我们已经完成了用户参与游戏的部分，很快就会把beta version传到github上，到时候可以试试和ai玩狼人杀！
+**我们已经完成了用户参与游戏的部分（尤其是加了ui），可以试试和ai玩狼人杀！**
 
 欢迎提交分支！！！
 
 
-**A multi-model ai werewolf game**
+***A multi-model ai werewolf game***
 
 *A quick start*
 
@@ -94,24 +84,6 @@ Day:
 
 - Players decide who to vote for, and the one who gets the most votes is killed
 
-
-*Sidenote and backstory:*
-
-
-The old version (1.5) has only basic functions and is very messy, so we did a reconstruction/refactoring of the code (the oldest uploaded)
-
-This time, there are 8 players instead of 6, and the code is more robust
-
-The output is still a bit messed up but things are generally great
-
-~~We are preparing to upload another version very soon~~
-
-~~It will have a plan section where users can customize the course and style of game~~
-
-We will upload a user version where it is possible to play the game with ai (only singleplayer for now)
-
-Most of the parts are done and we will upload the beta version soon (feel free to try it out and interact with ai!)
-
-Our future plan is to create a html version with ui later in nov.
+**Feel free to try out our user version (esp. after ui) and interact with ai!**
 
 -Leonard and Cameron
